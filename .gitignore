@@ -1,0 +1,6 @@
+.DS_Store
+*~lock~
+# Affinity working documents (may contain cover artwork)
+*.af
+*.afpub
+node_modules/
