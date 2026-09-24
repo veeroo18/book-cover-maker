@@ -12,7 +12,6 @@ It never creates lines, text, or any other printable object.
 
 - Affinity 3 with JavaScript scripting. Built and checked against **Affinity 3.3.0** (`/Applications/Affinity.app`, bundled `JSLib`).
 - Optional: **Script Manager for Affinity**, to install and run the script from a list.
-- Node.js 18+ is only needed to run the geometry tests.
 
 ## Install and run
 
@@ -74,7 +73,7 @@ An odd page count is never changed without asking. The script offers to round it
 
 ## Safe areas
 
-- Default: **0.5 in**, measured **from the bleed edge** (as the plan specifies). With a 3 mm bleed, the safe line is 0.5 in − 3 mm ≈ 9.7 mm inside the trim.
+- Default: **0.5 in**, measured **from the bleed edge** by default. With a 3 mm bleed, the safe line is 0.5 in − 3 mm ≈ 9.7 mm inside the trim.
 - You can switch to **Measure safe from: Trim edge**. That's how most printers (KDP, IngramSpark and others) define it.
 - At the spine folds there is no bleed, so the safe line is the safe distance from the spine edge.
 - There are no safe guides inside the spine.
@@ -104,19 +103,11 @@ These were checked in the bundled `JSLib` and in the native scripting library.
 2. **Bleed can't be written safely.** The only way to write bleed is `DocumentProperties.create()` + `setDocumentProperties()`. `create()` starts from defaults, and there's no way to read the document's current properties first. Writing it could reset the page size, DPI or other settings, so the script only reads the bleed (through `getSpreadExtents({ includeBleed })`) and warns you.
 3. **Spreads don't say whether they are masters.** The script works on `doc.currentSpread` and shows its size in the dialog so you can check it's the cover master.
 4. **Dialogs can't show images or drawings.** There's no picture preview in the dialog. The guides are shown live on the spread instead, as a temporary preview that's cleared on Cancel. Guide colour is one setting for the whole document, so each guide type can't have its own colour.
-5. **Guide coordinates.** The API parameter is named `pixels96`, but Affinity's own `examples/addGuides.js` passes spread coordinates in document pixels. This script does the same. Check this in manual test M1.
+5. **Guide coordinates.** The API parameter is named `pixels96`, but Affinity's own `examples/addGuides.js` passes spread coordinates in document pixels. This script does the same. Check this with test M1 below.
 
 ## Testing
 
-### Automated (pure geometry)
-
-```sh
-node --test "tests/*.test.js"
-```
-
-This covers plan cases 1–9 as far as they can run outside Affinity: centre == totalWidth / 2 for different spines and sizes, the centre staying put when units change and at 72/96/300/600 DPI, 200 pages × 0.10 mm = 10 mm, recalculation after a size change, moving safe and bleed lines, merged guides, the spine centre that can't be turned off, and every validation rule.
-
-### Manual (in Affinity)
+Run these checks in Affinity after changing the script:
 
 | # | Steps | Expected |
 |---|---|---|

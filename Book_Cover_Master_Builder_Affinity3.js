@@ -47,8 +47,8 @@
  *     temporary preview (executeCommand(..., preview = true)), which is
  *     cleared on Cancel.
  *
- * The geometry functions at the top are pure and run in Node for tests:
- *     node --test "tests/*.test.js"
+ * The geometry functions at the top are pure (no Affinity calls) and are
+ * exported, so they can be checked outside Affinity.
  */
 
 'use strict';
@@ -97,7 +97,7 @@ const DEFAULTS = Object.freeze({
     spineWidth: toPoints(10, 'mm'),
     bleed: toPoints(3, 'mm'),
     safeInset: toPoints(0.5, 'in'),
-    safeFrom: 'bleed',                 // plan: safe distance is measured from the bleed edge
+    safeFrom: 'bleed',                 // safe distance is measured from the bleed edge
     pageCount: 200,
     caliper: toPoints(0.10, 'mm'),     // ~80 gsm uncoated; starting point only
 });

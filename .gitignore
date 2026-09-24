@@ -4,3 +4,7 @@
 *.af
 *.afpub
 node_modules/
+
+# Local working files, not part of the script
+plan.md
+tests/
